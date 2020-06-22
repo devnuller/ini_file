@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: inifile
+# Cookbook:: inifile
 # Recipe:: default
 #
-# Copyright 2016 The Authors
+# Copyright:: 2016 The Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ chef_gem 'inifile' do
   action :install
 end
 
-testfile1='/tmp/test1_ini_file_cookbook.ini'
-testfile2='/tmp/test2_ini_file_cookbook.ini'
+testfile1 = '/tmp/test1_ini_file_cookbook.ini'
+testfile2 = '/tmp/test2_ini_file_cookbook.ini'
 
 file testfile1 do
   content <<EOF
@@ -37,13 +37,12 @@ end
 actions = [
   { action: :create, stanza: 'test', entry: 'one', value: '1' },
   { action: :create, stanza: 'test', entry: 'two', value: '2' },
-  { action: :create_if_missing, stanza: 'hello', entry: 'world', value: 'nononono' },  # test that the previous one do not get overwritten
-  { action: :create_if_missing, stanza: 'test', entry: 'three', value: '3' }
+  { action: :create_if_missing, stanza: 'hello', entry: 'world', value: 'nononono' }, # test that the previous one do not get overwritten
+  { action: :create_if_missing, stanza: 'test', entry: 'three', value: '3' },
 
 ]
 
-actions.each { |e|
-
+actions.each do |e|
   ini_entry "#{testfile1}:#{e[:stanza]}:#{e[:entry]}" do
     action   e[:action]
     filename testfile1
@@ -51,14 +50,13 @@ actions.each { |e|
     entry    e[:entry]
     value    e[:value]
   end
+end
 
-}
-    
 ini_entry 'delete-me' do
   action   :delete
   filename testfile1
   stanza   'hello'
-  entry    'delete' 
+  entry    'delete'
   notifies :create, 'ini_entry[notify-me]'
 end
 
@@ -112,7 +110,7 @@ ini_entry 'dont-notify-me' do
   value    'I should not have been notified'
 end
 
-# Test to create an entry an a file which doesn't exist yet 
+# Test to create an entry an a file which doesn't exist yet
 file testfile2 do
   action   :delete
 end
@@ -123,4 +121,4 @@ ini_entry 'create-in-non-existing-file' do
   stanza   'test'
   entry    'test2'
   value    'test2-value'
-end 
+end

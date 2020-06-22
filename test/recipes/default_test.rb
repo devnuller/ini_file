@@ -8,7 +8,6 @@
 testfile1 = '/tmp/test1_ini_file_cookbook.ini'
 testfile2 = '/tmp/test2_ini_file_cookbook.ini'
 
-
 describe file(testfile1) do
   it { should exist }                                          # output file was created
   its('content') { should match /^\[test\]$/ }                 # stanza [test] was created
@@ -22,8 +21,7 @@ describe file(testfile1) do
   its('content') { should_not match /^semicolons2failed = true$/ } # ensure existing entries with a ';' are not constantly overwritten
 end
 
-
 describe file(testfile2) do
-  it { should exist }                                          # output file was created
-  its('content') { should match /^test2 = test2-value$/ }  # notifications of ini_entry works
+  it { should exist } # output file was created
+  its('content') { should match /^test2 = test2-value$/ } # notifications of ini_entry works
 end

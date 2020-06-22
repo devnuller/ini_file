@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: inifile
+# Cookbook:: inifile
 # Library:: helper
 #
 # Helper functions to manipulate entries in ini files
 #
-# Copyright 2016 Schuberg Philis
+# Copyright:: 2016 Schuberg Philis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,20 +18,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def ini_write_entry(filename,stanza,entry,value)
+def ini_write_entry(filename, stanza, entry, value)
   require 'inifile'
-  if not ::File.exist? filename
-     ::File.open(filename,'w').close
+  unless ::File.exist? filename
+    ::File.open(filename, 'w').close
   end
-  f = IniFile.load(filename, :comment => '#')
-  f[stanza][entry]=value
+  f = IniFile.load(filename, comment: '#')
+  f[stanza][entry] = value
   f.write
 end
 
-
-def ini_delete_entry(filename,stanza,entry)
+def ini_delete_entry(filename, stanza, entry)
   require 'inifile'
-  f = IniFile.load(filename, :comment => '#')
+  f = IniFile.load(filename, comment: '#')
   f[stanza].delete(entry)
   f.write
 end

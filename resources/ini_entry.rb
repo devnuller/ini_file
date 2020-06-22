@@ -1,7 +1,7 @@
 #
-# Cookbook Name:: inifile
+# Cookbook:: inifile
 #
-# Copyright 2016 Schuberg Philis
+# Copyright:: 2016 Schuberg Philis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'ini_entry'
+resource_name :ini_entry
+provides :ini_entry
 default_action :create
 
 property :filename, String, name_property: true
@@ -27,9 +28,9 @@ load_current_value do
   if ::File.exist? @filename
     begin
       require 'inifile'
-      cur = IniFile.load(@filename, :comment => '#')
+      cur = IniFile.load(@filename, comment: '#')
       @value = cur[@stanza][@entry]
-      @value = @value.to_s unless @value == nil
+      @value = @value.to_s unless @value.nil?
     rescue NameError
       @value = nil
     end
